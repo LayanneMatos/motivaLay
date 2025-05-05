@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotivaLay - Frases Emocionais</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      background-color: #111;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1rem;
+      color: #bbb;
+    }
+    .container {
+      flex: 1;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    textarea, input, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 8px;
+    }
+    textarea, input {
+      background-color: #222;
+      color: #fff;
+    }
+    button {
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    .frase-sugerida {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: #1a1a1a;
+      border-left: 4px solid #fff;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      border-radius: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background-color: #111;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MotivaLay</h1>
+    <p>Encontre frases que combinam com o que você sente</p>
+  </header>
+
+  <div class="container">
+    <label for="sentimento">Como você está se sentindo hoje?</label>
+    <textarea id="sentimento" rows="3" placeholder="Ex: Me sinto insuficiente no meu relacionamento..."></textarea>
+    <button onclick="buscarFrase()">Buscar frase</button>
+
+    <div id="resultado" class="frase-sugerida" style="display:none;"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 MotivaLay. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const frases = [
+      { tema: "relacionamento", texto: "Você merece alguém que valorize até o seu silêncio." },
+      { tema: "relacionamento", texto: "Não se culpe por tentar demais por quem não tentou por você." },
+      { tema: "autoestima", texto: "Você é suficiente, mesmo nos dias em que não sente isso." },
+      { tema: "autoestima", texto: "Aceitar quem você é é o primeiro passo para florescer." },
+      { tema: "fé", texto: "Há uma força maior cuidando de tudo, até do que você ainda nem entende." },
+      { tema: "fé", texto: "A fé não elimina o medo, mas te faz caminhar mesmo tremendo." },
+      { tema: "motivação", texto: "Você não precisa ver o caminho todo. Dê apenas o próximo passo." },
+      { tema: "motivação", texto: "Desistir é uma pausa, não um fim. Recomece quantas vezes precisar." },
+      { tema: "tristeza", texto: "Está tudo bem não estar bem. Você é humano, não um robô." },
+      { tema: "tristeza", texto: "Até as noites mais longas acabam com o nascer do sol." },
+      { tema: "amor próprio", texto: "Seu valor não diminui porque alguém não soube enxergá-lo." },
+      { tema: "amor próprio", texto: "Se abrace com o carinho que você tanto oferece aos outros." },
+      { tema: "superação", texto: "Não é sorte, é persistência. Você vai conseguir." },
+      { tema: "superação", texto: "Cada cicatriz sua é um capítulo vencido da sua história." },
+      { tema: "ansiedade", texto: "Respira. Agora só existe o agora. O resto vem depois." },
+      { tema: "ansiedade", texto: "Nem tudo precisa estar sob controle. Soltar também é força." }
+    ];
+
+    const temas = {
+      relacionamento: ["relacionamento", "amor", "namoro", "casamento", "parecer insuficiente", "não sou valorizado", "amar demais"],
+      autoestima: ["autoestima", "sem valor", "sem confiança", "não gosto de mim"],
+      fé: ["fé", "Deus", "espiritualidade", "esperança"],
+      motivação: ["desistir", "motivar", "continuar", "caminhar"],
+      tristeza: ["triste", "vazio", "choro", "sofrendo"],
+      amor_proprio: ["amor próprio", "me amar", "me aceitar"],
+      superação: ["superar", "passar por isso", "vou conseguir"],
+      ansiedade: ["ansioso", "medo do futuro", "insegurança", "pressa"]
+    };
+
+    function buscarFrase() {
+      const sentimento = document.getElementById("sentimento").value.toLowerCase();
+      let temaDetectado = null;
+
+      for (const [tema, palavras] of Object.entries(temas)) {
+        if (palavras.some(p => sentimento.includes(p))) {
+          temaDetectado = tema;
+          break;
+        }
+      }
+
+      let frasesFiltradas = temaDetectado ?
+        frases.filter(f => f.tema.replace('_', '') === temaDetectado.replace('_', '')) :
+        frases;
+
+      const resultado = frasesFiltradas[Math.floor(Math.random() * frasesFiltradas.length)];
+      const divResultado = document.getElementById("resultado");
+      divResultado.style.display = 'block';
+      divResultado.textContent = resultado ? resultado.texto : "Não encontramos uma frase específica, mas você não está só.";
+    }
+  </script>
+</body>
+</html>
